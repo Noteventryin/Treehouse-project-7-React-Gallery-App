@@ -24,7 +24,8 @@ class App extends Component {
     state = {
       photos:[],
       loading: true,
-      title:'',
+      title:[],
+      searchString:''
     };
 
 
@@ -32,12 +33,12 @@ class App extends Component {
       this.performSearch();
     }
 
-    performSearch =(query= 'cats') =>{
+    performSearch = (query= 'cats') =>{
       this.setState({ loading: true });
       axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
            .then(response => {
               this.setState({
-                photos: response.data.photos.data,
+                photos: response.data.photos.photo,
                 title: query,
                 loading: false
               })
@@ -48,6 +49,7 @@ class App extends Component {
     }
     
     render () {
+      
       return (
         <BrowserRouter>
             <div className="container">
