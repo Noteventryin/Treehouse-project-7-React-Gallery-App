@@ -6,7 +6,7 @@ let dogs= {}
 let birds= {}
 
 const Topic = (query) => {
-    axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&text=${query}&size=z&per_page=24&format=json&nojsoncallback=1`)
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&text=${query}&per_page=24&format=json&nojsoncallback=1`)
     .then(res => {
         if(query === 'cats'){
             cats = res.data.photos.photo

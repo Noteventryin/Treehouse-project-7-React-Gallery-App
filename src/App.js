@@ -2,8 +2,7 @@ import React , { Component } from 'react';
 import {
   BrowserRouter,
   Route,
-  Switch,
-  Redirect
+  Switch
 } from 'react-router-dom';
 import axios from 'axios';
 
@@ -33,7 +32,7 @@ class App extends Component {
       this.performSearch();
     }
 
-    performSearch = (query= 'cats') =>{
+    performSearch = (query = 'cats') =>{
       this.setState({ loading: true });
       axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
            .then(response => {
@@ -59,20 +58,16 @@ class App extends Component {
                  (this.state.loading)
                    ? <p>loading...</p>
                    : <Switch>
-                        <Route exact path="/" render={ () => <Redirect to={`/search/cats`} /> }  />
-                        <Route path="/search/cats" render={ () => 
+                        <Route exact path="/" render={ () => <PhotoContainer data={this.state.photos} title={this.state.title} />} />
+                        <Route path="/cats" render={ () => 
                           <PhotoContainer data={cats} title={"cats"} /> } />
-                        <Route path="/search/dogs" render={ () => 
+                        <Route path="/dogs" render={ () => 
                           <PhotoContainer data={dogs} title={"dogs"} /> } />
-                        <Route path="/search/birds" render={ () => 
+                        <Route path="/birds" render={ () => 
                           <PhotoContainer data={birds} title={"birds"} /> } />
-                        <Route path="/search/:query" render={() => (
-                          <PhotoContainer data={this.state.photos}
-                                          title={this.state.title} /> 
-                          )}
-                        />
+                         {/* <Route render={() => <NotFound />} /> */}
                         {/* 404 error route  */}
-                        <Route exact path="/404error" component={PageNotFound} />
+                        <Route component={PageNotFound} />
                     </Switch>
               }
             </div>

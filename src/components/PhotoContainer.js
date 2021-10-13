@@ -2,23 +2,25 @@ import React from 'react';
 import Photo from './Photo';
 import NotFound from './NotFound';
 
+
 const PhotoContainer = (props) => {
     const results = props.data;
     let photos ;
     if (results.length > 0){
         photos = results.map((photo) => {
-            return <Photo url={`https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`}
-                            title={photo.title}  
-                            key={photo.id}
+            return <Photo id={photo.id}
+                          server={photo.server}
+                          secret={photo.secret}
+                          title={photo.title}  
+                          key={photo.id}
                         />
         }); 
     } else {
-       return <NotFound />
+       photos = <NotFound />
     }
         
     return(
         <div className="photo-container">
-            <h2>Results</h2>
             <ul>
                 {photos}
             </ul>

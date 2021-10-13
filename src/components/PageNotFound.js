@@ -2,11 +2,11 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const PageNotFound =() =>(
-<div className="page-not-found">
+    <div className="page-not-found">
         <h2>404 error: Page Not Found</h2>
         <p>Sorry, we couldn't find this page.</p>
         <ul>
-            <li><NavLink to="/">Back to Home Page</NavLink></li>
+            <li><NavLink to="/">Back to the home page</NavLink></li>
         </ul>
     </div>    
 )
