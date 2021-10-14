@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Photo from './Photo';
 import NotFound from './NotFound';
 
 
-const PhotoContainer = (props) => {
-    const results = props.data;
-    let photos ;
-    if (results.length > 0){
-        photos = results.map((photo) => {
+export default class PhotoContainer extends Component {
+    componentDidUpdate() {
+        if (this.props.searchInput !== this.props.query) {
+          this.props.fetchData(this.props.query);
+        }
+    }
+      render() {
+        const results = this.props.data;
+        let photos = results.map((photo) => {
             return <Photo id={photo.id}
                           server={photo.server}
                           secret={photo.secret}
@@ -15,19 +19,18 @@ const PhotoContainer = (props) => {
                           key={photo.id}
                         />
         }); 
-    } else {
-       photos = <NotFound />
+        if (results.length > 0){
+            return(
+                <div className="photo-container">
+                    <h2>Results for {this.props.title}</h2>
+                    <ul>
+                        {photos}
+                    </ul>
+                </div> 
+            )
+        } else {
+           return <NotFound />
+        }
+            
     }
-        
-    return(
-        <div className="photo-container">
-            <ul>
-                {photos}
-            </ul>
-        </div> 
-    )
-       
 }
-
-  
-export default PhotoContainer;

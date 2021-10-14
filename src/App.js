@@ -2,7 +2,8 @@ import React , { Component } from 'react';
 import {
   BrowserRouter,
   Route,
-  Switch
+  Switch,
+  withRouter
 } from 'react-router-dom';
 import axios from 'axios';
 
@@ -14,6 +15,7 @@ import PhotoContainer from './components/PhotoContainer';
 import SearchForm from './components/SearchForm';
 import Nav from './components/Nav';
 import PageNotFound from "./components/PageNotFound";
+import NotFound from './components/NotFound';
 
 //Data fetching from config.
 import apiKey from './components/config';
@@ -31,20 +33,31 @@ class App extends Component {
     componentDidMount(){
       this.performSearch();
     }
-
+   
     performSearch = (query = 'cats') =>{
       this.setState({ loading: true });
       axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
            .then(response => {
+             if(response.data.photos.photo.length > 0 ){
               this.setState({
                 photos: response.data.photos.photo,
                 title: query,
+                searchString: query,
                 loading: false
               })
-           })
+            }else{
+            this.setState({
+              loading: false,
+              searchString: "noresults"
+            });
+             this.props.history.replace("/noresults");
+            }
+          })
            .catch(error => {
               console.log('Error fetching and parsing data', error);
-           });
+              this.setState({loading: false});
+              this.props.history.replace("/404");
+          });
     }
     
     render () {
@@ -65,9 +78,9 @@ class App extends Component {
                           <PhotoContainer data={dogs} title={"dogs"} /> } />
                         <Route path="/birds" render={ () => 
                           <PhotoContainer data={birds} title={"birds"} /> } />
-                         {/* <Route render={() => <NotFound />} /> */}
-                        {/* 404 error route  */}
-                        <Route component={PageNotFound} />
+                        <Route exact path="/noresults" component={NotFound} /> 
+                        <Route exact path="/404" component={PageNotFound} /> 
+                        <Route component={NotFound} /> 
                     </Switch>
               }
             </div>
@@ -77,4 +90,4 @@ class App extends Component {
 }
 
 
-export default App;
+export default withRouter(App);
