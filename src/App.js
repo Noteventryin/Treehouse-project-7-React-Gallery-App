@@ -28,12 +28,12 @@ class App extends Component {
       title:[],
       searchString:''
     };
-
+    
 
     componentDidMount(){
       this.performSearch();
     }
-   
+  
     performSearch = (query = 'cats') =>{
       this.setState({ loading: true });
       axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
@@ -56,7 +56,7 @@ class App extends Component {
            .catch(error => {
               console.log('Error fetching and parsing data', error);
               this.setState({loading: false});
-              this.props.history.replace("/404");
+              // this.props.history.replace("/404");
           });
     }
     
@@ -79,8 +79,8 @@ class App extends Component {
                         <Route path="/birds" render={ () => 
                           <PhotoContainer data={birds} title={"birds"} /> } />
                         <Route exact path="/noresults" component={NotFound} /> 
-                        <Route exact path="/404" component={PageNotFound} /> 
-                        <Route component={NotFound} /> 
+                        {/* <Route exact path="/404" component={PageNotFound} />  */}
+                        <Route component={PageNotFound} /> 
                     </Switch>
               }
             </div>
