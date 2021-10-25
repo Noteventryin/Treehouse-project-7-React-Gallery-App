@@ -6,17 +6,17 @@ import NotFound from './NotFound';
 export default class PhotoContainer extends Component {
     componentDidUpdate() {
         if (this.props.searchInput !== this.props.query) {
-          this.props.fetchData(this.props.query);
+          this.props.performSearch(this.props.query);
         }
     }
       render() {
         const results = this.props.data;
         let photos = results.map((photo) => {
             return <Photo id={photo.id}
-                          server={photo.server}
-                          secret={photo.secret}
-                          title={photo.title}  
-                          key={photo.id}
+                    server={photo.server}
+                    secret={photo.secret}
+                    title={photo.title}  
+                    key={photo.id}
                         />
         }); 
         if (results.length > 0){
