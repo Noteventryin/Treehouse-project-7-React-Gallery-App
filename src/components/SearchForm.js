@@ -6,15 +6,31 @@ class SearchForm extends Component {
     state = {
     searchText: ''
   }
-
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+       if (this.props.location.pathname.includes('/search')) {
+          let searchText = this.props.location.pathname.replace('/search/', '');
+          this.props.onSearch(searchText);
+       }
+    }
+  }
+ 
   onSearchChange = (e) => {
     this.setState({ searchText: e.target.value });
   }
   
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.onSearch(this.query.value);
-    this.props.history.push(`/${this.state.searchText}`);
+    // this.props.onSearch(this.query.value);
+    // this.props.history.push(`/search/${this.state.searchText}`);
+    this.props.onSearch(this.state.searchText);
+    let path;
+    if (this.props.location.pathname.includes('/search')) {
+        path = this.state.searchText;
+    } else {
+        path = `search/${this.state.searchText}`;
+    }
+    this.props.history.push(path)
     e.currentTarget.reset();
   }
   

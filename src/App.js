@@ -3,7 +3,8 @@ import {
   BrowserRouter,
   Route,
   Switch,
-  Redirect
+  Redirect,
+  withRouter
 } from 'react-router-dom';
 import axios from 'axios';
 
@@ -14,8 +15,7 @@ import { cats, dogs, birds } from './components/Topic';
 import PhotoContainer from './components/PhotoContainer';
 import SearchForm from './components/SearchForm';
 import Nav from './components/Nav';
-import NotFound from './components/NotFound';
-
+import PageNotFound from './components/PageNotFound';
 //Data fetching from config.
 import apiKey from './components/config';
 
@@ -25,13 +25,15 @@ class App extends Component {
       photos:[],
       loading: true,
       title:[],
-      searchString:''
+      searchString:'',
+      query:[]
     };
     
 
     componentDidMount(){
       this.performSearch();
     }
+
   
     performSearch = (query='cats' ) =>{
       this.setState({ loading: true });
@@ -62,15 +64,15 @@ class App extends Component {
                  (this.state.loading)
                    ? <p>loading...</p>
                    : <Switch>
-                        <Route exact path="/" component={ () => <Redirect to="/cats" />} />
+                        <Route exact path="/" render={ () => <Redirect to={"cats"}/>} />
                         <Route path="/cats" render={ () => 
                           <PhotoContainer data={cats} title={"cats"} /> } />
                         <Route path="/dogs" render={ () => 
                           <PhotoContainer data={dogs} title={"dogs"} /> } />
                         <Route path="/birds" render={ () => 
                           <PhotoContainer data={birds} title={"birds"} /> } />
-                        <Route path="/:query" render={ () => <PhotoContainer data={this.state.photos}  title={this.state.title}  />} />
-                        <Route component={NotFound} /> 
+                        <Route path="/search/:query" render={ () => <PhotoContainer data={this.state.photos}  title={this.state.title}  />} />
+                        <Route component={PageNotFound} /> 
                     </Switch>
               }
             </div>
@@ -80,4 +82,4 @@ class App extends Component {
 }
 
 
-export default App;
+export default withRouter(App);
