@@ -19,6 +19,7 @@ class SearchForm extends Component {
     this.setState({ searchText: e.target.value });
   }
   
+  
   handleSubmit = (e) => {
     e.preventDefault();
     // this.props.onSearch(this.query.value);

@@ -17,7 +17,7 @@ import SearchForm from './components/SearchForm';
 import Nav from './components/Nav';
 import PageNotFound from './components/PageNotFound';
 //Data fetching from config.
-import apiKey from './components/config';
+import apiKey from './config';
 
 
 class App extends Component {
